@@ -65,4 +65,4 @@ if streamlit.button("Add Fruit Load List"):
     rows = insert_row(add)
     my_cnx.close()
     streamlit.header("Fruit Load List")
-    streamlit.dataframe(rows)
+    streamlit.text(rows)
