@@ -34,3 +34,14 @@ streamlit.text('🥗 Kale, Spinach & Rocket Smoothie')
 streamlit.text('🐔 Hard-Boiled Free-Range Egg')
 streamlit.text('🥑🍞 Avocado Toast')
 streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
+
+
+add = streamlit.text_input('What fruit would you like to add?', value='Watermelon')
+add_query = "insert into pc_rivery_db.public.fruit_load_list values ('" + add + "')"
+my_cur.execute(add_query)
+my_cur.execute("select * from fruit_load_list")
+streamlit.write('The fruit you added is: ' + add)
+rows = my_cur.fetchall()
+streamlit.header("Fruit Load List")
+streamlit.dataframe(pd.DataFrame(rows))
+
