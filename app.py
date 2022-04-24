@@ -1,20 +1,12 @@
-#henlo
+
 import pandas as pd
 import streamlit
 import pandas
 import requests
 import snowflake.connector
+from urllib.error import URLError
 
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
-my_data_row = my_cur.fetchone()
-streamlit.text("You are connected to Snowflake as user: %s, account: %s, region: %s" % my_data_row)
-my_cur.execute("select * from fruit_load_list")
-rows = my_cur.fetchall()
-streamlit.header("Fruit Load List")
-streamlit.dataframe(pd.DataFrame(rows))
 streamlit.header('Fruittyvice.com fruit advice!')
 choice = streamlit.text_input('What fruit would you like advice on?', value='Watermelon')
 streamlit.write('The fruit you chose is: ' + choice)
@@ -36,6 +28,20 @@ streamlit.text('🥑🍞 Avocado Toast')
 streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 
 
+
+
+streamlit.stop()
+
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur = my_cnx.cursor()
+my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
+my_data_row = my_cur.fetchone()
+streamlit.text("You are connected to Snowflake as user: %s, account: %s, region: %s" % my_data_row)
+my_cur.execute("select * from fruit_load_list")
+rows = my_cur.fetchall()
+streamlit.header("Fruit Load List")
+streamlit.dataframe(pd.DataFrame(rows))
+
 add = streamlit.text_input('What fruit would you like to add?', value='Watermelon')
 add_query = "insert into pc_rivery_db.public.fruit_load_list values ('" + add + "')"
 my_cur.execute(add_query)
@@ -44,4 +50,3 @@ streamlit.write('The fruit you added is: ' + add)
 rows = my_cur.fetchall()
 streamlit.header("Fruit Load List")
 streamlit.dataframe(pd.DataFrame(rows))
-
