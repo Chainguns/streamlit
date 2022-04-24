@@ -1,7 +1,11 @@
 #henlo
 import streamlit
 import pandas
+import requests
 
+resp = requests.get("https://www.fruityvice.com/api/fruit/watermelon")
+streamlit.header('Fruittyvice.com fruit advice!')
+streamlit.text(resp.json())
 df = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 df.set_index('Fruit', inplace=True)
 
