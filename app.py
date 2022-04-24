@@ -3,9 +3,9 @@ import streamlit
 import pandas
 
 df = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
+df.set_index('Fruit', inplace=True)
 
 fruits_selected = streamlit.multiselect("Pick some fruits:", list(df.index),['Avocado','Strawberries'])
-df.set_index('Fruit', inplace=True)
 fruits_to_show = df.loc[fruits_selected]
 streamlit.dataframe(fruits_to_show)
 streamlit.title("Diner app title")
