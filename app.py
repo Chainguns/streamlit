@@ -53,7 +53,7 @@ if streamlit.button("Get Fruit Load List"):
     rows = get_fruit_load_list()
     my_cnx.close()
     streamlit.header("Fruit Load List")
-    streamlit.dataframe(pd.DataFrame(rows))
+    streamlit.dataframe(rows)
 
 
 
@@ -65,4 +65,4 @@ if streamlit.button("Add Fruit Load List"):
     rows = insert_row(add)
     my_cnx.close()
     streamlit.header("Fruit Load List")
-    streamlit.dataframe(pd.DataFrame(rows))
+    streamlit.dataframe(rows)
