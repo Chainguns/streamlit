@@ -6,6 +6,7 @@ import requests
 import snowflake.connector
 from urllib.error import URLError
 
+
 def fruit_choice(choice):
     streamlit.write('The fruit you chose is: ' + choice)
     resp = requests.get("https://www.fruityvice.com/api/fruit/" + choice)
@@ -19,7 +20,7 @@ try:
         streamlit.error('Please enter a fruit!')
     else:
         fruit_choice(choice)
-        
+
 
 except URLError as e:
     streamlit.error('Error!' + e)
@@ -37,20 +38,26 @@ streamlit.text('🐔 Hard-Boiled Free-Range Egg')
 streamlit.text('🥑🍞 Avocado Toast')
 streamlit.header('🍌🥭 Build Your Own Fruit Smoothie 🥝🍇')
 
+def insert_row(fruit_name):
+    with my_cnx.cursor() as cur:
+        cur.execute("INSERT INTO fruit_load_list VALUES ('" + fruit_name + "')")
+        return "You added " + fruit_name + " to your fruit load list!"
 
+def get_fruit_load_list():
+    with my_cnx.cursor() as cur:
+        cur.execute("SELECT * FROM fruit_load_list")
+        return cur.fetchall()
 
+if streamlit.button("Get Fruit Load List"):
+    my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+    rows = get_fruit_load_list()
+    my_cnx.close()
+    streamlit.header("Fruit Load List")
+    streamlit.dataframe(pd.DataFrame(rows))
 
 streamlit.stop()
 
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
-my_data_row = my_cur.fetchone()
-streamlit.text("You are connected to Snowflake as user: %s, account: %s, region: %s" % my_data_row)
-my_cur.execute("select * from fruit_load_list")
-rows = my_cur.fetchall()
-streamlit.header("Fruit Load List")
-streamlit.dataframe(pd.DataFrame(rows))
+
 
 add = streamlit.text_input('What fruit would you like to add?', value='Watermelon')
 add_query = "insert into pc_rivery_db.public.fruit_load_list values ('" + add + "')"
