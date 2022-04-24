@@ -6,13 +6,23 @@ import requests
 import snowflake.connector
 from urllib.error import URLError
 
+def fruit_choice(choice):
+    streamlit.write('The fruit you chose is: ' + choice)
+    resp = requests.get("https://www.fruityvice.com/api/fruit/" + choice)
+    normalized = pd.json_normalize(resp.json())
+    return streamlit.dataframe(normalized)
 
 streamlit.header('Fruittyvice.com fruit advice!')
-choice = streamlit.text_input('What fruit would you like advice on?', value='Watermelon')
-streamlit.write('The fruit you chose is: ' + choice)
-resp = requests.get("https://www.fruityvice.com/api/fruit/" + choice)
-normalized = pd.json_normalize(resp.json())
-streamlit.dataframe(normalized)
+try:
+    choice = streamlit.text_input('What fruit would you like advice on?', value='Watermelon')
+    if not choice:
+        streamlit.error('Please enter a fruit!')
+    else:
+        fruit_choice(choice)
+        
+
+except URLError as e:
+    streamlit.error('Error!' + e)
 
 df = pandas.read_csv("https://uni-lab-files.s3.us-west-2.amazonaws.com/dabw/fruit_macros.txt")
 df.set_index('Fruit', inplace=True)
