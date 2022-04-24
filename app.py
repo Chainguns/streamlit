@@ -1,3 +1,3 @@
 #henlo
 import streamlit
-steamlit.title("Test app title")
+streamlit.title("Test app title")
