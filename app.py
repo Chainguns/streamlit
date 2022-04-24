@@ -3,7 +3,7 @@ import pandas as pd
 import streamlit
 import pandas
 import requests
-
+import snowflake.connector
 
 streamlit.header('Fruittyvice.com fruit advice!')
 choice = streamlit.text_input('What fruit would you like advice on?', value='Watermelon')
