@@ -76,7 +76,7 @@ pandas_filter_time = end - start
 
 start = time.time()
 st.write("PyPolars filter result:")
-st.write(iris_polars[iris_polars["sepal_length"] > 5])
+st.write(iris_polars.filter(pl.col("sepal_length") > 5))
 end = time.time()
 polars_filter_time = end - start
 
