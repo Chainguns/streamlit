@@ -1,24 +1,50 @@
-
-import pandas as pd
-import requests
 import streamlit as st
+import pandas as pd
+import pypolar as pd
 
-# Custom imports 
-from multipage import MultiPage
-from pages import data_upload, machine_learning, metadata, data_visualize, redundant, inference # import your pages here
+st.title("Comparing Pandas and PyPolars Dataframes")
 
-# Create an instance of the app 
-app = MultiPage()
+st.header("Introduction")
+st.write("Pandas is a popular data analysis library in Python, while PyPolars is a relatively new library, "
+         "that aims to provide faster data processing capabilities.")
 
-# Title of the main page
-st.title("Data Storyteller Application")
+st.header("Creating a DataFrame")
+st.write("We will create a simple dataframe using both Pandas and PyPolars and compare the time taken to create the dataframe")
 
-# Add all your applications (pages) here
-app.add_page("Upload Data", data_upload.app)
-app.add_page("Change Metadata", metadata.app)
-app.add_page("Machine Learning", machine_learning.app)
-app.add_page("Data Analysis",data_visualize.app)
-app.add_page("Y-Parameter Optimization",redundant.app)
+df_pandas = pd.DataFrame({
+    'A': [1, 2, 3],
+    'B': [4, 5, 6],
+    'C': [7, 8, 9]
+})
 
-# The main app
-app.run()
+df_pypolars = pd.DataFrame({
+    'A': [1, 2, 3],
+    'B': [4, 5, 6],
+    'C': [7, 8, 9]
+})
+
+st.write("Pandas DataFrame:")
+st.write(df_pandas)
+st.write("PyPolars DataFrame:")
+st.write(df_pypolars)
+
+st.header("DataFrame Operations")
+st.write("We will perform some common dataframe operations on both Pandas and PyPolars dataframes")
+
+st.write("Pandas sum:", df_pandas.sum())
+st.write("PyPolars sum:", df_pypolars.sum())
+
+st.write("Pandas mean:", df_pandas.mean())
+st.write("PyPolars mean:", df_pypolars.mean())
+
+st.header("Performance Comparison")
+st.write("Finally, we will compare the performance of Pandas and PyPolars by measuring the time taken to perform a complex operation")
+
+%timeit df_pandas.sum()
+%timeit df_pypolars.sum()
+
+st.write("The above results show the time taken by Pandas and PyPolars to perform the operation. As PyPolars is optimized for performance, it is faster than Pandas for large datasets.")
+
+st.header("Conclusion")
+st.write("In conclusion, both Pandas and PyPolars are powerful data analysis libraries in Python, but PyPolars provides faster performance for large datasets. "
+         "It's always a good idea to evaluate both libraries and choose the one that fits your needs better.")
