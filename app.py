@@ -61,7 +61,7 @@ pandas_apply_time = end - start
 
 start = time.time()
 st.write("PyPolars apply result:")
-st.write(iris_polars.apply(custom_operation, axis=1))
+st.write(iris_polars.apply(custom_operation))
 end = time.time()
 polars_apply_time = end - start
 
