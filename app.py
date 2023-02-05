@@ -47,23 +47,23 @@ st.write(iris_polars.groupby("species").mean())
 end = time.time()
 polars_groupby_time = end - start
 
-st.header("Apply Operations")
-st.write("We will perform an apply operation on both Pandas and PyPolars dataframes")
+# st.header("Apply Operations")
+# st.write("We will perform an apply operation on both Pandas and PyPolars dataframes")
 
-def custom_operation(row):
-    return row["sepal_length"] / row["sepal_width"]
+# def custom_operation(row):
+#     return row["sepal_length"] / row["sepal_width"]
 
-start = time.time()
-st.write("Pandas apply result:")
-st.write(iris.apply(custom_operation, axis=1))
-end = time.time()
-pandas_apply_time = end - start
+# start = time.time()
+# st.write("Pandas apply result:")
+# st.write(iris.apply(custom_operation, axis=1))
+# end = time.time()
+# pandas_apply_time = end - start
 
-start = time.time()
-st.write("PyPolars apply result:")
-st.write(iris_polars.apply(custom_operation))
-end = time.time()
-polars_apply_time = end - start
+# start = time.time()
+# st.write("PyPolars apply result:")
+# st.write(iris_polars.apply(custom_operation))
+# end = time.time()
+# polars_apply_time = end - start
 
 st.header("Filter Operations")
 st.write("We will perform a filter operation on both Pandas and PyPolars dataframes")
