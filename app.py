@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import pypolar as pd
+import polars as pl
 
 st.title("Comparing Pandas and PyPolars Dataframes")
 
