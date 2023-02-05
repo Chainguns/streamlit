@@ -40,8 +40,7 @@ st.write("PyPolars mean:", df_pypolars.mean())
 st.header("Performance Comparison")
 st.write("Finally, we will compare the performance of Pandas and PyPolars by measuring the time taken to perform a complex operation")
 
-%timeit df_pandas.sum()
-%timeit df_pypolars.sum()
+
 
 st.write("The above results show the time taken by Pandas and PyPolars to perform the operation. As PyPolars is optimized for performance, it is faster than Pandas for large datasets.")
 
