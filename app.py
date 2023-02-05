@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import polars as pl
+import time
 
 st.title("Comparing Pandas and PyPolars Dataframes")
 
@@ -8,42 +9,58 @@ st.header("Introduction")
 st.write("Pandas is a popular data analysis library in Python, while PyPolars is a relatively new library, "
          "that aims to provide faster data processing capabilities.")
 
-st.header("Creating a DataFrame")
-st.write("We will create a simple dataframe using both Pandas and PyPolars and compare the time taken to create the dataframe")
+st.header("Loading the Iris Dataset")
 
-df_pandas = pd.DataFrame({
-    'A': [1, 2, 3],
-    'B': [4, 5, 6],
-    'C': [7, 8, 9]
-})
+iris = pd.read_csv("https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv")
+iris_polars = pl.read_csv("https://raw.githubusercontent.com/mwaskom/seaborn-data/master/iris.csv")
 
-df_pypolars = pd.DataFrame({
-    'A': [1, 2, 3],
-    'B': [4, 5, 6],
-    'C': [7, 8, 9]
-})
-
-st.write("Pandas DataFrame:")
-st.write(df_pandas)
-st.write("PyPolars DataFrame:")
-st.write(df_pypolars)
+st.write("Pandas DataFrame Shape:", iris.shape)
+st.write("PyPolars DataFrame Shape:", iris_polars.shape)
 
 st.header("DataFrame Operations")
 st.write("We will perform some common dataframe operations on both Pandas and PyPolars dataframes")
 
-st.write("Pandas sum:", df_pandas.sum())
-st.write("PyPolars sum:", df_pypolars.sum())
+st.write("Pandas head:")
+st.write(iris.head())
+st.write("PyPolars head:")
+st.write(iris_polars.head())
 
-st.write("Pandas mean:", df_pandas.mean())
-st.write("PyPolars mean:", df_pypolars.mean())
+st.write("Pandas describe:")
+st.write(iris.describe())
+st.write("PyPolars describe:")
+st.write(iris_polars.describe())
+
+st.header("Groupby Operations")
+st.write("We will perform a groupby operation on both Pandas and PyPolars dataframes")
+
+st.write("Pandas groupby mean:")
+st.write(iris.groupby("species").mean())
+st.write("PyPolars groupby mean:")
+st.write(iris_polars.groupby("species").mean())
+
+st.header("Apply Operations")
+st.write("We will perform an apply operation on both Pandas and PyPolars dataframes")
+
+def custom_operation(row):
+    return row["sepal_length"] / row["sepal_width"]
+
+st.write("Pandas apply result:")
+st.write(iris.apply(custom_operation, axis=1))
+st.write("PyPolars apply result:")
+st.write(iris_polars.apply(custom_operation, axis=1))
 
 st.header("Performance Comparison")
-st.write("Finally, we will compare the performance of Pandas and PyPolars by measuring the time taken to perform a complex operation")
+st.write("We will compare the performance of Pandas and PyPolars dataframes")
 
+start = time.time()
+iris.groupby("species").mean()
+end = time.time()
+pandas_time = end - start
 
+start = time.time()
+iris_polars.groupby("species").mean()
+end = time.time()
+polars_time = end - start
 
-st.write("The above results show the time taken by Pandas and PyPolars to perform the operation. As PyPolars is optimized for performance, it is faster than Pandas for large datasets.")
-
-st.header("Conclusion")
-st.write("In conclusion, both Pandas and PyPolars are powerful data analysis libraries in Python, but PyPolars provides faster performance for large datasets. "
-         "It's always a good idea to evaluate both libraries and choose the one that fits your needs better.")
+st.write("Pandas groupby time:", pandas_time)
+st.write("PyPolars groupby time:", polars_time)
