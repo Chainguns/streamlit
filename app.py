@@ -22,8 +22,10 @@ st.write("We will perform some common dataframe operations on both Pandas and Py
 
 st.write("Pandas head:")
 st.write(iris.head())
+
 st.write("PyPolars head:")
 st.write(iris_polars.head())
+
 
 st.write("Pandas describe:")
 st.write(iris.describe())
@@ -33,10 +35,17 @@ st.write(iris_polars.describe())
 st.header("Groupby Operations")
 st.write("We will perform a groupby operation on both Pandas and PyPolars dataframes")
 
+start = time.time()
 st.write("Pandas groupby mean:")
 st.write(iris.groupby("species").mean())
+end = time.time()
+pandas_groupby_time = end - start
+
+start = time.time()
 st.write("PyPolars groupby mean:")
 st.write(iris_polars.groupby("species").mean())
+end = time.time()
+polars_groupby_time = end - start
 
 st.header("Apply Operations")
 st.write("We will perform an apply operation on both Pandas and PyPolars dataframes")
@@ -44,23 +53,32 @@ st.write("We will perform an apply operation on both Pandas and PyPolars datafra
 def custom_operation(row):
     return row["sepal_length"] / row["sepal_width"]
 
+start = time.time()
 st.write("Pandas apply result:")
 st.write(iris.apply(custom_operation, axis=1))
+end = time.time()
+pandas_apply_time = end - start
+
+start = time.time()
 st.write("PyPolars apply result:")
 st.write(iris_polars.apply(custom_operation, axis=1))
+end = time.time()
+polars_apply_time = end - start
 
-st.header("Performance Comparison")
-st.write("We will compare the performance of Pandas and PyPolars dataframes")
+st.header("Filter Operations")
+st.write("We will perform a filter operation on both Pandas and PyPolars dataframes")
 
 start = time.time()
-iris.groupby("species").mean()
+st.write("Pandas filter result:")
+st.write(iris[iris["sepal_length"] > 5])
 end = time.time()
-pandas_time = end - start
+pandas_filter_time = end - start
 
 start = time.time()
-iris_polars.groupby("species").mean()
+st.write("PyPolars filter result:")
+st.write(iris_polars[iris_polars["sepal_length"] > 5])
 end = time.time()
-polars_time = end - start
+polars_filter_time = end - start
 
-st.write("Pandas groupby time:", pandas_time)
-st.write("PyPolars groupby time:", polars_time)
+st.write("Pandas filter time:", pandas_filter_time)
+st.write("PyPolars filter time:", polars_filter_time)
